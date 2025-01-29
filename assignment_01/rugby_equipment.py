@@ -72,10 +72,21 @@ while True:
     engine.run()
 
     # Ask the user if they want another recommendation
-    if input("\n Would you like another recommendation? (y/n): ").strip().lower() == 'n':
-        # Exit the loop if the user chooses 'n'
+    iteration2 = input("\n Would you like another recommendation? (y/n): ").strip().lower()
+
+    # Exit the loop if the user chooses 'n'
+    if iteration2 == 'n':
         print ("\n Thank you for using the Rugby equipment Suggestion System, goodbye! ")
         break
+
+    # Start a new iteration if the user chooses 'y'
+    elif iteration2 == 'y':
+        engine.reset()
+
+    # Incase the user provides an invalid option
+    else:
+        input("\n Invalid option. Please enter 'y' to continue or 'n' to quit.")
+        continue
 
     # Reset the engine for the next iteration
     engine.reset()
