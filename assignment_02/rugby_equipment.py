@@ -35,7 +35,7 @@ class KnowledgeBase:
         # dictionary used to check occurences of equipment based on the features provided
         possible = {}
         for feature in features:  # iterate through the features provided by the user
-            for equipment in self.relationshps.get(feature, []):   # check if the feature exists in the relationships dictionary
+            for equipment in self.relationships.get(feature, []):   # check if the feature exists in the relationships dictionary
                 possible[equipment] = possible.get(equipment, 0) + 1   # increase the count of how many features match each equipment
 
         # list to store equipment where all required features match
@@ -43,7 +43,7 @@ class KnowledgeBase:
         for equipment, count in possible.items():
             required_features = self.equipment[equipment]["features"]
             # ensure all required features are present and count matches
-            if count == len(required_features) and all (s in features for s in required_features):
+            if all(feature in features for feature in required_features):
                 matches.append(equipment)
 
         return matches  # return the list of matching equipment
