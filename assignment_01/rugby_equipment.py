@@ -6,7 +6,7 @@ collections.Mapping = collections.abc.Mapping
 from experta import *    # Importing the Experta library, which is used to build rule-based expert systems.
 
 
-# Define a knowledge engine class for the suggestion system
+# Define a knowledge-engine class for the suggestion system
 # This class represents the knowledge-based suggestion system.
 # It contains rules to provide suggestions for rugby equipment based on user preferences.
 
@@ -26,15 +26,24 @@ class Suggest(KnowledgeEngine):
         print("Suggested jersey: Under Ammour jersey")
 
     # Fallback rule for equipment when only the category is specified
-    @Rule(Fact(category = 'boots'))
+    @Rule(Fact(category = 'boots', price_range = 'low', feature = 'other'))
+    def default_boots(self):
+        print("Suggested boots: Generic rugby boots")
+    @Rule(Fact(category = 'boots', price_range = 'high', feature = 'other'))
     def default_boots(self):
         print("Suggested boots: Generic rugby boots")
 
-    @Rule(Fact(category = 'shorts'))
+    @Rule(Fact(category = 'shorts', price_range = 'medium', feature = 'other'))
+    def default_shorts(self):
+        print("Suggested shorts: Generic rugby shorts")
+    @Rule(Fact(category = 'shorts', price_range = 'low', feature = 'other'))
     def default_shorts(self):
         print("Suggested shorts: Generic rugby shorts")
 
-    @Rule(Fact(category = 'jersey'))
+    @Rule(Fact(category = 'jersey', price_range = 'medium', feature = 'long sleeved'))
+    def default_jersey(self):
+        print("Suggested jersey: Generic rugby jersey")
+    @Rule(Fact(category = 'jersey', price_range = 'high', feature = 'other'))
     def default_jersey(self):
         print("Suggested jersey: Generic rugby jersey")
 

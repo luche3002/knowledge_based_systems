@@ -5,14 +5,14 @@ class KnowledgeBase:
 
         # dictionary containing rugby equipment, their features, and suggestions
         self.equipment = {
-            "boots":{"features":["metal_studs", "black"],"price_range":["high", "medium", "low"], "suggestion": "canterbury rugby boots"},
-            "shorts":{"features": ["black", "large"], "price_range":["high", "medium", "low"], "suggestion": "adidas rugby short"},
-            "jersey":{"features": ["short_sleeved", "black"], "price_range":["high", "medium", "low"], "suggestion": "adidas rugby jersey"},
-            "rugby_ball":{"features":["white", "size_5"], "price_range": ["high", "medium", "low"], "suggestion": "samurai rugby ball"},
-            "hit_shield":{"features":["yellow", "medium"], "price_range":["high", "medium", "low"], "suggestion": "tessen hit shields" },
-            "sausage_bags":{"features":["yellow", "short"], "price_range":["high", "medium", "low"], "suggestion": "tessen sausage bags"},
-            "headgear":{"features":["black", "laced"], "price_range": ["high", "medium", "low"], "suggestion": "canterbury headgear"},
-            "cones":{"features": ["red"], "price_range":["high", "medium", "low"], "suggestion": "samurai cones"},
+            "boots":{"features":["metal_studs", "black"], "suggestion": "canterbury rugby boots"},
+            "shorts":{"features": ["black", "large"], "suggestion": "adidas rugby short"},
+            "jersey":{"features": ["short_sleeved", "black"], "suggestion": "adidas rugby jersey"},
+            "rugby_ball":{"features":["white", "size_5"], "suggestion": "samurai rugby ball"},
+            "hit_shield":{"features":["yellow", "medium"], "suggestion": "tessen hit shields" },
+            "sausage_bags":{"features":["yellow", "short"], "suggestion": "tessen sausage bags"},
+            "headgear":{"features":["black", "laced"], "suggestion": "canterbury headgear"},
+            "cones":{"features": ["red"], "suggestion": "samurai cones"}
             }
 
         # dictionary mapping each feature to possible equipment
@@ -38,23 +38,18 @@ class KnowledgeBase:
             for equipment in self.relationships.get(feature, []):   # check if the feature exists in the relationships dictionary
                 possible[equipment] = possible.get(equipment, 0) + 1   # increase the count of how many features match each equipment
 
-        # list to store equipment where all required features match
-        matches = []
-        for equipment, count in possible.items():
-            required_features = self.equipment[equipment]["features"]
-            # ensure all required features are present and count matches
-            if all(feature in features for feature in required_features):
-                matches.append(equipment)
+        # instead of requiring all features to match, we allow for partial matches and sort by relevance (highest match count first)
+        matches = sorted(possible.keys(), key=lambda x: -possible[x])
 
         return matches  # return the list of matching equipment
 
-# create and instance for the KnowledgeBase
+# initialize the KnowledgeBase
 kb = KnowledgeBase()
 
 # display system information
 print("\n Welcome to the Rugby Equipment Suggestion System!")
 print("Available features:", ", ".join(kb.relationships.keys()))
-print("\n Enter the features you want (coma-seperated): ")
+print("\n Enter the features you want (comma-seperated): ")
 
 # get user input and clean it
 user_input = input("> ").lower().replace(" ", "_").split(',')
